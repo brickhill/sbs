@@ -1,30 +1,23 @@
 
 import os
+from dotenv import load_dotenv
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 env_vars = os.environ.copy()
+load_dotenv()
+
+if os.getenv("DJANGO_SECRET_KEY") in os.environ:
+    SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 
-if "DJANGO_SECRET_KEY" in env_vars:
-    SECRET_KEY = env_vars["DJANGO_SECRET_KEY"]
-
-if "DJANGO_ALLOWED_HOSTS" in env_vars:
-    ALLOWED_HOSTS = env_vars["DJANGO_ALLOWED_HOSTS"].split(",")
-
-# Find WAGTAIL_SITE_NAME = "webapp" and change it to...
-WAGTAIL_SITE_NAME = env_vars["WAGTAIL_SITE_NAME"] if "WAGTAIL_SITE_NAME" in env_vars else ""
-
-# WAGTAILADMIN_BASE_URL = "http://example.com" and change it to ...
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(
+    ",") if "DJANGO_ALLOWED_HOSTS" in os.environ else ""
+WAGTAIL_SITE_NAME = os.getenv(
+    "WAGTAIL_SITE_NAME") if "WAGTAIL_SITE_NAME" in os.environ else ""
 WAGTAILADMIN_BASE_URL = env_vars["BASE_URL"] if "BASE_URL" in env_vars else ""
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "home",
@@ -94,21 +87,13 @@ WSGI_APPLICATION = "sbssite.wsgi.application"
 #     }
 # }
 DATABASES = {
-    # "default": {
-    #     "ENGINE": "django.db.backends.mysql",
-    #     "NAME": env_vars["MYSQL_DATABASE"] if "MYSQL_DATABASE" in env_vars else "",
-    #     "USER": env_vars["MYSQL_USER"] if "MYSQL_USER" in env_vars else "",
-    #     "PASSWORD": env_vars["MYSQL_PASSWORD"] if "MYSQL_PASSWORD" in env_vars else "",
-    #     "HOST": env_vars["MYSQL_HOST"] if "MYSQL_HOST" in env_vars else "",
-    #     "PORT": env_vars["MYSQL_PORT"] if "MYSQL_PORT" in env_vars else "",
-    # }
-        "default": {
+    "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": 'sbsys',
-        "USER": 'root',
-        "PASSWORD": 'Password123',
-        "HOST": '127.0.0.1',
-        "PORT": '3306',
+        "NAME": os.getenv("MYSQL_DATABASE") if "MYSQL_DATABASE" in os.environ else "",
+        "USER": os.getenv("MYSQL_USER") if "MYSQL_USER" in os.environ else "",
+        "PASSWORD": os.getenv("MYSQL_PASSWORD") if "MYSQL_PASSWORD" in os.environ else "",
+        "HOST": os.getenv("MYSQL_HOST") if "MYSQL_HOST" in os.environ else "",
+        "PORT": os.getenv("MYSQL_PORT") if "MYSQL_PORT" in os.environ else "",
     }
 }
 
