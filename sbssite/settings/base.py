@@ -8,10 +8,10 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 env_vars = os.environ.copy()
 load_dotenv()
 
-
+print('Getting Secret...')
 SECRET_KEY = os.getenv(
     "DJANGO_SECRET_KEY") if "DJANGO_SECRET_KEY" in os.environ else ""
-
+print("SECRET IS: %s" % SECRET_KEY)
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(
     ",") if "DJANGO_ALLOWED_HOSTS" in os.environ else ""
 print("HOSTS:%s" % ALLOWED_HOSTS)
