@@ -14,6 +14,7 @@ SECRET_KEY = os.getenv(
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(
     ",") if "DJANGO_ALLOWED_HOSTS" in os.environ else ""
+print("HOSTS:%s" % ALLOWED_HOSTS)
 WAGTAIL_SITE_NAME = os.getenv(
     "WAGTAIL_SITE_NAME") if "WAGTAIL_SITE_NAME" in os.environ else ""
 WAGTAILADMIN_BASE_URL = env_vars["BASE_URL"] if "BASE_URL" in env_vars else ""
