@@ -12,6 +12,7 @@ print('Getting Secret...')
 SECRET_KEY = os.getenv(
     "DJANGO_SECRET_KEY") if "DJANGO_SECRET_KEY" in os.environ else ""
 print("SECRET IS: %s" % SECRET_KEY)
+print("SECRET2(%s)" % os.getenv("DJANGO_SECRET_KEY"))
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(
     ",") if "DJANGO_ALLOWED_HOSTS" in os.environ else ""
 print("HOSTS:%s" % ALLOWED_HOSTS)
