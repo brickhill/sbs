@@ -8,16 +8,11 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 env_vars = os.environ.copy()
 load_dotenv()
 
-print('Getting Secret...')
 SECRET_KEY = os.getenv(
     "DJANGO_SECRET_KEY") if "DJANGO_SECRET_KEY" in os.environ else ""
-print("SECRET IS: %s" % SECRET_KEY)
-print("SECRET2(%s)" % os.getenv("DJANGO_SECRET_KEY"))
-print("MYSQL(%s)" % os.getenv("MYSQL_DATABASE"))
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(
     ",") if "DJANGO_ALLOWED_HOSTS" in os.environ else ""
-print("HOSTS:%s" % ALLOWED_HOSTS)
 WAGTAIL_SITE_NAME = os.getenv(
     "WAGTAIL_SITE_NAME") if "WAGTAIL_SITE_NAME" in os.environ else ""
 WAGTAILADMIN_BASE_URL = env_vars["BASE_URL"] if "BASE_URL" in env_vars else ""
