@@ -32,7 +32,8 @@ class HomePage(Page):
         max_length=50,
         help_text='Button Text',
         default='Read more',
-        blank=False
+        blank=False,
+        null=False
     )
 
     banner_background_image = models.ForeignKey('wagtailimages.Image',
