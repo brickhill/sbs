@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load wagtailcore_tags %}
+
 {% load static %}
 
 {% block body_class %}template-homepage{% endblock %}
@@ -6,6 +8,6 @@
 {% block content %}
 <h1>{{ page.title }}</h1>
 <h2>{{ page.lead_text }}</h2>
-<p>Body:{{ page.body|safe }}</p>
+<p>Body:{{ page.body|richtext }}</p>
 
 {% endblock content %}
