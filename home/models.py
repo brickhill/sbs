@@ -14,7 +14,7 @@ class HomePage(Page):
 
     lead_text = models.CharField(
         max_length=500,
-        help_text='Lead text',
+        help_text='Add some Lead text',
         blank=True
     )
 
