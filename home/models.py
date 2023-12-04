@@ -48,5 +48,5 @@ class HomePage(Page):
         FieldPanel("body"),
         PageChooserPanel("button"),
         FieldPanel("button_text"),
-        # ImageChooserPanel("banner_background_image"),
+        FieldPanel("banner_background_image"),
     ]
