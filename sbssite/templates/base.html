@@ -24,7 +24,7 @@
         {% endif %}
 
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/sbssite.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
 
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
@@ -33,11 +33,12 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-
-        {% block content %}{% endblock %}
-
+        {% block banner %}{% endblock %}
+        <main id="content" class="container my-4" role="main">
+            {% block content %}{% endblock %}
+        </main>
         {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/sbssite.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
