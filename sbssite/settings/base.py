@@ -21,6 +21,7 @@ WAGTAILADMIN_BASE_URL = env_vars["BASE_URL"] if "BASE_URL" in env_vars else ""
 INSTALLED_APPS = [
     "home",
     "search",
+    "services",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
