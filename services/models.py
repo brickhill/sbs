@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 
 
 class ServiceListingPage(Page):
+    template = 'services/service_listing_page.html'
     subtitle = models.TextField(blank=True, max_length=500)
 
     content_panels = Page.content_panels + [
@@ -14,9 +15,9 @@ class ServiceListingPage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context['services'] = ServicePage.objects.live().public
-        import pudb
-        pu.db()
-        pg = 'PG'
+        # import pudb
+        # pu.db()
+        # pg = 'PG'
         return context
 
 
