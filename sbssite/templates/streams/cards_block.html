@@ -1,0 +1,10 @@
+{% load  wagtailimages_tags %}
+{% for card in value.cards %}
+    {% image card.image fill-570x370 as img %}
+    <img src="{{ img.url }}" alt="{{ img.alt }}">
+    <h3>{{ card.title }}</h3>
+    {% if card.text %}
+        <p>{{ card.text }}</p>
+
+    {% endif %}
+{% endfor %}

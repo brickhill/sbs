@@ -1,11 +1,13 @@
-from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, modeladmin_register)
+# from wagtail.contrib.modeladmin.options import (
+#     ModelAdmin, modeladmin_register)
+from wagtail.snippets.models import register_snippet
+from wagtail.snippets.views.snippets import SnippetViewSet
 
 from .models import BlogPost
 
 
-@modeladmin_register
-class BlogPostAdmin(ModelAdmin):
+# @register_snippet
+class BlogPostAdmin(SnippetViewSet):
     model = BlogPost
     menu_label = "Blog Posts"
     menu_icon = "placeholder"

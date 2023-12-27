@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags wagtailcore_tags %}
 
 {% load static %}
 
@@ -30,3 +30,8 @@
 
 {% endblock banner %}
 
+{% block content %}
+    {% for block in page.body_stream %}
+        {% include_block block %}
+    {% endfor %}
+{% endblock content %}
