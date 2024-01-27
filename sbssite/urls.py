@@ -12,6 +12,8 @@ from .views import loginx
 urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
+    path("login2", loginx, name="login2"),
+    path(r'', include('allauth.urls')),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
 ]
@@ -29,9 +31,8 @@ if settings.DEBUG:
 
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
-        path("login2", loginx, name="login2"),
-        path(r'', include('allauth.urls'))
     ] + urlpatterns
 urlpatterns = urlpatterns + [
     path("", include(wagtail_urls)),
+
 ]
