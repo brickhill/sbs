@@ -1,6 +1,7 @@
 from django.db import models
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtail.snippets.blocks import SnippetChooserBlock
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.models import Page, Orderable
 from wagtail.fields import StreamField
@@ -45,9 +46,11 @@ class HomePage(Page):
                                                 on_delete=models.SET_NULL
                                                 )
     body_stream = StreamField([
+        ("blog_posts", SnippetChooserBlock(target_model="blog.BlogPost")),
         ("title", TitleBlock()),
         ("cards", CardsBlock())
     ], null=True, blank=True, use_json_field=True)
+
     content_panels = Page.content_panels + [
         FieldPanel("lead_text"),
         FieldPanel("body"),

@@ -7,6 +7,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
+from .views import loginx
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
@@ -25,8 +26,11 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls))
+        path('__debug__/', include(debug_toolbar.urls)),
+        path("login2", loginx, name="login2"),
+        path(r'', include('allauth.urls'))
     ] + urlpatterns
 urlpatterns = urlpatterns + [
     # For anything not caught by a more specific rule above, hand over to
