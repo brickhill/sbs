@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "misc",
     "blog",
     "streams",
+    "menus",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
+    "wagtail.contrib.modeladmin",
     "wagtail",
     "modelcluster",
     "taggit",
@@ -182,5 +184,5 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 
 # allauth settings.
 LOGIN_REDIRECT_URL = 'login2'
-
-
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
