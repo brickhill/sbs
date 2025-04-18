@@ -4,8 +4,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = '(w%t61(zx%&srsry+iv%cds45_ihg5g+w9r#b+8r0a3z(h&=i(1^ght_)s'
 
-
-
 ALLOWED_HOSTS = ["127.0.0.1"]
 
 INSTALLED_APPS = [
