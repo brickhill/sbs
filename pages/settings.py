@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -94,9 +95,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' 
+# URL to use when referring to static files located in STATIC_ROOT
 
-STATICFILES_DIRS = [
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+
+STATICFILES_DIRS = [  # Where to collect static stuff from to put in STATIC_ROOT
 BASE_DIR / 'static'
 ]
 
