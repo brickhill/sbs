@@ -1,6 +1,3 @@
-# TODO test
-
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +31,9 @@ ROOT_URLCONF = 'pages.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,14 +65,10 @@ DATABASES = {
 
 try:
     file = open("pages/dev.txt", "r")
-    print("AAA")
     DEBUG = True
     contents = file.read()
-    print('DEV Environment')
-    print(f"CONTENTS: {contents}")  # Print file content
 except Exception as e:
     DEBUG = False
-    print("LIVE Environment")
     DATABASES['default'] = DATABASES['production']
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -100,5 +95,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
