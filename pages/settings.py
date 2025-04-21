@@ -67,6 +67,7 @@ DATABASES = {
 try:
     file = open("pages/dev.txt", "r")
     DEBUG = True
+    DEBUG = False
     contents = file.read()
 except Exception as e:
     DEBUG = False
@@ -95,7 +96,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/' 
+STATIC_URL = '/static/' 
 # URL to use when referring to static files located in STATIC_ROOT
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
