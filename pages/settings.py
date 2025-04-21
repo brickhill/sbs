@@ -67,7 +67,6 @@ DATABASES = {
 try:
     file = open("pages/dev.txt", "r")
     DEBUG = True
-    DEBUG = False
     contents = file.read()
 except Exception as e:
     DEBUG = False
