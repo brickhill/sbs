@@ -6,17 +6,19 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .common import create_navbar
 
 
 def home(request):
-    context = {}
+    navbar = create_navbar(request, 'home')
+    context = {"navbar": navbar}
     return render(request, 'home.html', context)
 
 
 def login_page(request):
     page = 'login'
     if request.user.is_authenticated:
-        messages.info(request, "Already logged in dickhead")
+        messages.info(request, "Already logged in")
         return redirect('home')
     if request.method == "POST":
         username = request.POST.get('username').lower()
