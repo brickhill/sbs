@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Category, Tag, BlogPost
+from .models import Category, Tag, BlogPost, WebPage
 from django import forms
+from django.utils.html import format_html
 
 
 class CustomCategoryAdminForm(forms.ModelForm):
@@ -34,14 +35,32 @@ class CategoryAdmin(admin.ModelAdmin):
 class BLogPostAdmin(admin.ModelAdmin):
     date_hierarchy = 'updated'
     actions = []
-    list_display = ['title', 'author', 'updated']
     readonly_fields = ['created', 'updated']
+    def image_tag(self, obj):
+        print(f"FEATURE:{obj.feature_image }")
+        if obj.feature_image:
+            print('A')
+            print(obj.feature_image)
+            return format_html('<img src="{}" style="max-width:200px; max-height:200px"/>'.format(obj.feature_image.url))
+        else:
+            print('B')
+            return "<none>"
+
+    list_display = ['title', 'image_tag', 'author', 'updated']
     fields = ['title', 'body', 'synopsis', 'author', 'status',
-              'start_time', 'end_time', 'categories', 'tags', 'created',
+              'start_time', 'end_time', 'categories', 'tags', 'feature_image', 'created',
               'updated']
     exclude = []
 
-
+class WebPageAdmin(admin.ModelAdmin):
+    date_hierarchy = 'updated'
+    actions = []
+    list_display = ['title', 'author', 'updated', 'parent']
+    readonly_fields = ['created', 'updated']
+    fields = ['title', 'body', 'synopsis', 'author', 'status',
+              'created', 'updated', 'parent', 'feature_image']
+    exclude = []
 admin.site.register(Tag)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(BlogPost, BLogPostAdmin)
+admin.site.register(WebPage, WebPageAdmin)
