@@ -7,12 +7,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .common import create_navbar
+from .models import WebPage
 
 
 def home(request):
     navbar = create_navbar(request, 'home')
-    context = {"navbar": navbar}
+    context = {"navbar": navbar, "header": True}
     return render(request, 'home.html', context)
+
+def showPage(request, pk):
+    page = WebPage.objects.get(id=pk)
+    navbar = create_navbar(request, page.title)
+    context = {"navbar": navbar, "body": page.body,
+    "header": False,
+    "title": page.title}
+    return render(request, 'page.html', context)
 
 
 def login_page(request):
@@ -61,3 +70,4 @@ def registerPage(request):
             messages.error(request, "An error occurred during registration")
 
     return render(request, 'login_registration.html', {'form': form})
+

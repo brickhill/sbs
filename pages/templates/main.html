@@ -14,7 +14,9 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-        {% include 'header.html' %}
+        {% if header %}
+            {% include 'header.html' %}
+        {% endif %}
         {% if messages %}
             <ul>
                 {% for message in messages %}

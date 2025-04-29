@@ -98,10 +98,11 @@ class WebPage(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES,
                               blank=True, null=True, help_text='Status')
     parent = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True, default=None)
-    feature_image = models.ImageField(upload_to="images/")
+    feature_image = models.ImageField(upload_to="images/", null=True, blank=True)
     lft = models.IntegerField(null=True, blank=True)
     rgt = models.IntegerField(null=True, blank=True)
-    level = models.IntegerField(null=True, blank=True)
+    level = models.IntegerField(default=1, null=True, blank=True)
+    priority = models.IntegerField(default=1, null=True, blank=True)
 
 
     def __str__(self):

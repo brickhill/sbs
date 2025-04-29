@@ -55,11 +55,12 @@ class BLogPostAdmin(admin.ModelAdmin):
 class WebPageAdmin(admin.ModelAdmin):
     date_hierarchy = 'updated'
     actions = []
-    list_display = ['title', 'author', 'updated', 'parent']
+    list_display = ['title', 'level', 'priority', 'author', 'updated', 'parent']
     readonly_fields = ['created', 'updated']
-    fields = ['title', 'body', 'synopsis', 'author', 'status',
-              'created', 'updated', 'parent', 'feature_image']
+    fields = ['title', 'body', 'synopsis', 'level', 'priority',
+              'author', 'status', 'created', 'updated', 'parent', 'feature_image']
     exclude = []
+
 admin.site.register(Tag)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(BlogPost, BLogPostAdmin)

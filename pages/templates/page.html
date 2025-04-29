@@ -1,0 +1,19 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container my-5 col-md-12">
+    <div class="row">
+        {% comment %} <div class="col-md-4">
+            <h2>Column 1</h2>
+            <p>Content for the first column goes here.</p>
+        </div> {% endcomment %}
+        <div class="col-md-12">
+            <h2>{{ title }}</h2>
+            <p>{{ body }}</p>
+        </div>
+        {% comment %} <div class="col-md-4">
+            <h2>Column 3</h2>
+            <p>Content for the third column goes here.</p>
+        </div> {% endcomment %}
+    </div>
+</div>
+{% endblock  %}
