@@ -23,6 +23,12 @@ def showPage(request, pk):
     "title": page.title}
     return render(request, 'page.html', context)
 
+def showBlog(request):
+    navbar = create_navbar(request, "blog")
+    context = {
+        "navbar": navbar, "title": "Blog"
+    }
+    return render(request, 'blog.html', context)
 
 def login_page(request):
     page = 'login'

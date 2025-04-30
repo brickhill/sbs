@@ -6,8 +6,29 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             {% for item in navbar %}
-                <li class="nav-item {% if item.active == True %}active{% endif %}">
-                <a class="nav-link" href="{{item.link }}">{{ item.label }}</a>
+                {% if not item.children %}
+                    <li class="nav-item {% if item.active == True %}active{% endif %}">
+                    <a class="nav-link" href="
+                    {% if item.param %}
+                        {% url item.link pk=item.param %}
+                    {% else %}
+                        {% url item.link %}
+                    {% endif %}
+                    ">{{ item.label }}</a>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ item.label }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for subitem in item.children %}
+                                <a class="dropdown-item {% if subitem.active == True %}active{% endif %}" 
+                                href="{% url subitem.link pk=subitem.param %}">{{ subitem.label }}</a>
+                                <div class="dropdown-divider"></div>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% endif %}
                 </li>
             {% endfor %}
             {% comment %} <li class="nav-item active">
