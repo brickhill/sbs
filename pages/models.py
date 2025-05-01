@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+# from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Category(models.Model):
@@ -88,8 +90,10 @@ class WebPage(models.Model):
 
     title = models.CharField(max_length=200, blank=False, null=False,
                              help_text="Post title", validators=[])
-    body = models.TextField(max_length=20000, blank=False, null=False,
-                            help_text="Blog body")
+    # body = models.TextField(max_length=20000, blank=False, null=False,
+    #                         help_text="Blog body")
+    body = RichTextUploadingField(max_length=20000, null=True, blank=True,
+                                  help_text="Blog body")
     synopsis = models.TextField(max_length=20000, blank=True, null=True,
                                 help_text="Synopsis", validators=[])
     updated = models.DateTimeField(auto_now=True)
@@ -97,13 +101,14 @@ class WebPage(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES,
                               blank=True, null=True, help_text='Status')
-    parent = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True, default=None)
-    feature_image = models.ImageField(upload_to="images/", null=True, blank=True)
+    parent = models.ForeignKey("self", on_delete=models.SET_NULL,
+                               null=True, blank=True, default=None)
+    feature_image = models.ImageField(upload_to="images/", null=True,
+                                      blank=True)
     lft = models.IntegerField(null=True, blank=True)
     rgt = models.IntegerField(null=True, blank=True)
     level = models.IntegerField(default=1, null=True, blank=True)
     priority = models.IntegerField(default=1, null=True, blank=True)
-
 
     def __str__(self):
         return self.title

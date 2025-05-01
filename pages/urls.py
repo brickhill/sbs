@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 from . import views
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('register/', views.registerPage, name="register"),
     path('', views.home, name="home"),
     path('page/<str:pk>/', views.showPage, name="showpage"),
-    path('blog/', views.showBlog, name="blog")
+    path('blog/', views.showBlog, name="blog"),
+    path('ckeditor/', include('ckeditor_uploader.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

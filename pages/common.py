@@ -38,5 +38,4 @@ def create_navbar(request, current):
                     "param": c.id,
                     "active": True if current == c.title else ""
                 })
-    print(navbar)
     return navbar
