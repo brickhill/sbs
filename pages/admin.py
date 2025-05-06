@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Tag, BlogPost, WebPage
+from .models import Category, Tag, BlogPost, WebPage, CodeSnippet
 from django import forms
 from django.utils.html import format_html
 
@@ -61,7 +61,14 @@ class WebPageAdmin(admin.ModelAdmin):
               'author', 'status', 'created', 'updated', 'parent', 'feature_image']
     exclude = []
 
+class CodeSnippetAdmin(admin.ModelAdmin):
+    date_hierarchy = 'updated'
+    list_display = ['id', 'title']
+    fields = ['title', 'snippet']
+    readonly_fields = ['created', 'updated']
+
 admin.site.register(Tag)
+admin.site.register(CodeSnippet, CodeSnippetAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(BlogPost, BLogPostAdmin)
 admin.site.register(WebPage, WebPageAdmin)

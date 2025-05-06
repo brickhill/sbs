@@ -1,3 +1,45 @@
-body {
-    background-color: aquamarine;
-}
+.code-highlight .k { color: #e5d5ef; font-weight: bold }
+.code-highlight .s { color: #BB4444 }
+.code-highlight .w { color: #44bb4e }
+.code-highlight .nc { color: #6198d7b1 }
+.code-highlight .n { color: #f4dae8b1 }
+.code-highlight {background-color: rgb(19, 17, 17)}
+.code-highlight .normal {color: whitesmoke; padding-right: 5px;}
+
+
+
+
+
+
+
+/* <h2>Snippet 1</h2>
+
+<div class="code-highlight">
+    <pre>
+        <span></span>
+ 
+        <span class="nc">CustomCategoryAdminForm</span>
+        <span class="p">(</span>
+        <span class="n">forms</span>
+        <span class="o">.</span>
+        <span class="n">ModelForm</span>
+        <span class="p">):</span>
+        <span class="n">parent</span>
+        <span class="o">=</span>
+        <span class="n">forms</span>
+        <span class="o">.</span>
+        <span class="n">IntegerField</span>
+        <span class="p">()</span>
+        <span class="k">class</span>
+        <span class="w"> </span>
+        <span class="nc">Meta</span>
+        <span class="p">:</span>
+        <span class="n">model</span>
+        <span class="o">=</span>
+        <span class="n">Category</span>
+        <span class="n">fields</span>
+        <span class="o">=</span>
+        <span class="s1">&#39;__all__&#39;</span>
+    </pre>
+</div> */
+

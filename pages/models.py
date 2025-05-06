@@ -123,5 +123,17 @@ class WebPage(models.Model):
         ]
         unique_together = []
 #############################
+class CodeSnippet(models.Model):
+    title = models.CharField(max_length=100, blank=False, null=False,
+                             help_text="Snippet title")
+    snippet = models.TextField(max_length=20000, blank=False, null=False,
+                              help_text="Code Snippet")
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
 
-# TODO Comments: Who, Text, Post, LFT, RGT, Level
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Code Snippet"
+        ordering = ["title", "-updated"]

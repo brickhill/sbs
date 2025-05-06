@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .common import create_navbar
+from .common import create_navbar, code_snippet
 from .models import WebPage
 
 
@@ -18,7 +18,8 @@ def home(request):
 def showPage(request, pk):
     page = WebPage.objects.get(id=pk)
     navbar = create_navbar(request, page.title)
-    context = {"navbar": navbar, "body": page.body,
+    body = code_snippet(page.body)
+    context = {"navbar": navbar, "body": body,
     "header": False,
     "title": page.title}
     return render(request, 'page.html', context)
