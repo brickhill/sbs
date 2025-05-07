@@ -16,7 +16,6 @@ def code_snippet(snippet):
         snippet_record = CodeSnippet.objects.get(id=a[1])
         lexer = get_lexer_by_name("python", stripall=True)
         formatter = HtmlFormatter(linenos=True, cssclass="code-highlight")
-        # snippet = highlight(code, PythonLexer(), HtmlFormatter())
         snippet = snippet.replace(a[0], 
                                   highlight(snippet_record.snippet,
                                   lexer, formatter

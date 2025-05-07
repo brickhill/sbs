@@ -1,23 +1,26 @@
-.code-highlight .k { color: #e5d5ef; font-weight: bold }
+.code-highlight .k { color: #e5d5ef; font-weight: bold } /* Keyword */
+.code-highlight .c1 {color: #14fa467f; font-style: italic; font-weight: bold; }
 .code-highlight .s { color: #BB4444 }
-.code-highlight .w { color: #44bb4e }
-.code-highlight .nc { color: #6198d7b1 }
-.code-highlight .n { color: #f4dae8b1 }
-.code-highlight {background-color: rgb(19, 17, 17)}
-.code-highlight .normal {color: whitesmoke; padding-right: 5px;}
-
-
-
-
-
-
-
-/* <h2>Snippet 1</h2>
-
+.code-highlight .mi { color: #e8fc03; font-weight: bold; }
+.code-highlight .s1 { color: #e8fc03 }
+.code-highlight .s2 { color: #f09e74 }
+.code-highlight .kc { color: #e29599 }
+.code-highlight .kn { color: white }
+.code-highlight .w { color: rgba(217, 134, 148, 0.909) }
+.code-highlight .nc { color: #8ebff6b1; font-weight: bold; } /* Name Class */
+.code-highlight .nf { color: #8ebff6b1 } /* Function Class */
+.code-highlight .n { color: #dbaf10b1 }
+.code-highlight .p { color: pink }
+.code-highlight .bp {color: pink; font-weight: bold;}
+.code-highlight .o { color: cyan }
+.code-highlight .fm { color: cyan; font-weight: bold; }
+.code-highlight .nn { color: violet; font-weight: bold; }
+.code-highlight .ow { color: violet; font-style: italic; }
+.code-highlight {background-color: rgb(19, 17, 17); font-weight: bold;}
+.code-highlight .normal {color: #fff; padding-right: 5px;}
+/*
 <div class="code-highlight">
     <pre>
-        <span></span>
- 
         <span class="nc">CustomCategoryAdminForm</span>
         <span class="p">(</span>
         <span class="n">forms</span>
