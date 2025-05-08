@@ -6,20 +6,19 @@ from pygments.lexers import get_lexer_by_name
 from pygments.styles import get_style_by_name
 from pygments.formatters import HtmlFormatter
 
-'''
-'''
+
 def code_snippet(snippet):
-    print(f"SNIPPET:{snippet}")
-    get_style_by_name("colorful")
-    anchors = re.findall(r"(\[\[(\d+)\]\])", snippet)
-    for a in anchors:
-        snippet_record = CodeSnippet.objects.get(id=a[1])
-        lexer = get_lexer_by_name("python", stripall=True)
-        formatter = HtmlFormatter(linenos=True, cssclass="code-highlight")
-        snippet = snippet.replace(a[0], 
-                                  highlight(snippet_record.snippet,
-                                  lexer, formatter
-                                  ))
+    if snippet:
+        get_style_by_name("colorful")
+        anchors = re.findall(r"(\[\[(\d+)\]\])", snippet)
+        for a in anchors:
+            snippet_record = CodeSnippet.objects.get(id=a[1])
+            lexer = get_lexer_by_name("python", stripall=True)
+            formatter = HtmlFormatter(linenos=True, cssclass="code-highlight")
+            snippet = snippet.replace(a[0], 
+                                      highlight(snippet_record.snippet,
+                                      lexer, formatter
+                                      ))
     
     return snippet
 
@@ -38,7 +37,9 @@ def create_navbar(request, current):
     }
     navbar.append(this_dict)
     menu_items = WebPage.objects.filter(
-        Q(status=WebPage.PUBLISHED) & Q(level=1)
+        Q(status=WebPage.PUBLISHED) 
+        & Q(level=1)
+        & Q(type=WebPage.PAGE)
         ).order_by('priority')
     for m in menu_items:
         children = WebPage.objects.filter(

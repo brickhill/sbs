@@ -1,3 +1,18 @@
-<footer class="bg-light text-center py-4">
-    <p>&copy; 2025 My Website. All rights reserved.</p>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{% url 'terms' %}"><h5>Terms</h5></a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'privacy' %}"><h5>Privacy</h5></a>
+            </div>
+            <div class="col-md-4">
+                <h5>Search</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <p align="center">&copy; 2025 My Website. All rights reserved.</p>
+    </div>
 </footer>

@@ -24,6 +24,26 @@ def showPage(request, pk):
     "title": page.title}
     return render(request, 'page.html', context)
 
+def terms(request):
+    termsPage = WebPage.objects.filter(type=WebPage.TERMS)
+    termsText = termsPage[0].body if termsPage else 'T&C coming soon'
+    navbar = create_navbar(request, None)
+    context = {"navbar": navbar, "body": termsText, "header": False,
+    "title": "Terms & Conditions"
+    }
+    return render(request, 'page.html', context)
+
+
+def privacy(request):
+    termsPage = WebPage.objects.filter(type=WebPage.PRIVACY)
+    termsText = termsPage[0].body if termsPage else 'Privacy coming soon'
+    navbar = create_navbar(request, None)
+    context = {"navbar": navbar, "body": termsText, "header": False,
+    "title": "Privacy Policy"
+    }
+    return render(request, 'page.html', context)
+
+
 def showBlog(request):
     navbar = create_navbar(request, "blog")
     context = {

@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 # from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.db.models import Q
+from django.core.exceptions import ValidationError
 
 
 class Category(models.Model):
@@ -44,9 +46,14 @@ class Tag(models.Model):
 
 class BlogPost(models.Model):
     DRAFT = "DRAFT"
-    PUBLISHED = "PUBISHED"
+    PUBLISHED = "PUBLISHED"
+    PAGE = "PAGE"
+    TERMS = "T&C"
+    PRIVACY = "PRIVACY"
     STATUS_CHOICES = ((DRAFT, "Draft"), (PUBLISHED, "Published"))
-
+    TYPE_CHOICES = (
+        (PAGE, "Page"), (TERMS, "Terms & Conditions"), (PRIVACY, "Privacy")
+    )
     title = models.CharField(max_length=200, blank=False, null=False,
                              help_text="Post title", validators=[])
     body = models.TextField(max_length=20000, blank=False, null=False,
@@ -54,6 +61,8 @@ class BlogPost(models.Model):
     synopsis = models.TextField(max_length=20000, blank=True, null=True,
                                 help_text="Synopsis", validators=[])
     updated = models.DateTimeField(auto_now=True)
+    type = models.CharField(max_length=7, blank=False, null=False,
+    default=PAGE, choices=TYPE_CHOICES)
     created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES,
@@ -86,16 +95,21 @@ class BlogPost(models.Model):
 class WebPage(models.Model):
     DRAFT = "DRAFT"
     PUBLISHED = "PUBISHED"
+    PAGE = "PAGE"
+    TERMS = "T&C"
+    PRIVACY = "PRIVACY"
     STATUS_CHOICES = ((DRAFT, "Draft"), (PUBLISHED, "Published"))
-
+    TYPE_CHOICES = (
+        (PAGE, "Page"), (TERMS, "Terms & Conditions"), (PRIVACY, "Privacy Policy")
+    )
     title = models.CharField(max_length=200, blank=False, null=False,
                              help_text="Post title", validators=[])
-    # body = models.TextField(max_length=20000, blank=False, null=False,
-    #                         help_text="Blog body")
-    body = RichTextUploadingField(max_length=20000, null=True, blank=True,
+    body = RichTextUploadingField(max_length=20000, null=False, blank=False,
                                   help_text="Blog body")
     synopsis = models.TextField(max_length=20000, blank=True, null=True,
                                 help_text="Synopsis", validators=[])
+    type = models.CharField(max_length=8, null=False, blank=False, choices=TYPE_CHOICES,
+                            default=PAGE, help_text="Page Type")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -113,6 +127,20 @@ class WebPage(models.Model):
     def __str__(self):
         return self.title
 
+    def clean(self, *args,**kwargs):
+        cleaned_data = super().clean()
+        print(f"Custom validation:({self.id})")
+        print(f"Custom validation:({self.type})")
+        print(f"Custom validation:({self})")
+        if self.type == self.TERMS or self.type == self.PRIVACY:
+            print("MNE1")
+            result = WebPage.objects.filter(Q(type=self.type) & ~Q(id=self.id))
+            print("MNE2")
+            if result:
+                print("MNE3")
+                msg = f"Already type {self.type}"
+                raise ValidationError({"type": msg})
+
     class Meta:
         # db_table_comment = "Blog post categories"
         verbose_name = "Web page"
@@ -122,7 +150,8 @@ class WebPage(models.Model):
             # models.Index(fields=['last', 'first'])
         ]
         unique_together = []
-#############################
+
+
 class CodeSnippet(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False,
                              help_text="Snippet title")

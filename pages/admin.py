@@ -53,11 +53,12 @@ class BLogPostAdmin(admin.ModelAdmin):
     exclude = []
 
 class WebPageAdmin(admin.ModelAdmin):
+    # TODO Special types (e.g. Privacy) must only have maximum
     date_hierarchy = 'updated'
     actions = []
-    list_display = ['title', 'level', 'priority', 'author', 'updated', 'parent']
+    list_display = ['title', 'type', 'status', 'level', 'priority', 'author', 'updated', 'parent']
     readonly_fields = ['created', 'updated']
-    fields = ['title', 'body', 'synopsis', 'level', 'priority',
+    fields = ['title', 'body', 'type', 'synopsis', 'level', 'priority',
               'author', 'status', 'created', 'updated', 'parent', 'feature_image']
     exclude = []
 
