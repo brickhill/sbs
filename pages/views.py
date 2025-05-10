@@ -6,8 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from .common import create_navbar, code_snippet
-from .models import WebPage
+from .models import WebPage, BlogPost
 
 
 def home(request):
@@ -15,22 +16,29 @@ def home(request):
     context = {"navbar": navbar, "header": True}
     return render(request, 'home.html', context)
 
+
 def showPage(request, pk):
     page = WebPage.objects.get(id=pk)
     navbar = create_navbar(request, page.title)
     body = code_snippet(page.body)
-    context = {"navbar": navbar, "body": body,
-    "header": False,
-    "title": page.title}
+    context = {
+               "navbar": navbar, "body": body,
+               "header": False,
+               "title": page.title
+              }
     return render(request, 'page.html', context)
+
 
 def terms(request):
     termsPage = WebPage.objects.filter(type=WebPage.TERMS)
     termsText = termsPage[0].body if termsPage else 'T&C coming soon'
     navbar = create_navbar(request, None)
-    context = {"navbar": navbar, "body": termsText, "header": False,
-    "title": "Terms & Conditions"
-    }
+    context = {
+               "navbar": navbar,
+               "body": termsText,
+               "header": False,
+               "title": "Terms & Conditions"
+              }
     return render(request, 'page.html', context)
 
 
@@ -38,18 +46,25 @@ def privacy(request):
     termsPage = WebPage.objects.filter(type=WebPage.PRIVACY)
     termsText = termsPage[0].body if termsPage else 'Privacy coming soon'
     navbar = create_navbar(request, None)
-    context = {"navbar": navbar, "body": termsText, "header": False,
-    "title": "Privacy Policy"
-    }
+    context = {
+               "navbar": navbar, "body": termsText, "header": False,
+               "title": "Privacy Policy"
+              }
     return render(request, 'page.html', context)
 
 
 def showBlog(request):
     navbar = create_navbar(request, "blog")
+    posts = BlogPost.objects.filter(
+        status=BlogPost.PUBLISHED).order_by("-updated")
+    paginator = Paginator(posts, 3)  # Show 3 results per page
+    page_number = request.GET.get('page')
+    posts_obj = paginator.get_page(page_number)
     context = {
-        "navbar": navbar, "title": "Blog"
+        "navbar": navbar, "title": "Blog", "posts": posts_obj
     }
     return render(request, 'blog.html', context)
+
 
 def login_page(request):
     page = 'login'
@@ -97,4 +112,3 @@ def registerPage(request):
             messages.error(request, "An error occurred during registration")
 
     return render(request, 'login_registration.html', {'form': form})
-

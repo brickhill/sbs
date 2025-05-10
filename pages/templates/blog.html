@@ -7,8 +7,53 @@
             <p>Content for the first column goes here.</p>
         </div>
         <div class="col-md-6">
-            <h2>Blog</h2>
-            <p>Blog posts</p>
+            <h1>Blog</h1>
+            {% for post in posts %}
+                <h2>{{ post.title}}<h2>
+                <h3>Author: {{ post.author}} : {{ post.updated}}</h3>
+                <p>{{ post.synopsis }}</p>
+            {% endfor %}
+            {% comment %} <nav aria-label="pagination-menu">
+                <ul class="pagination">
+       
+                    {% for p in posts.paginator.page_range  %}
+                        <li class="page-item {% if p == posts.page %}active{% endif %}">
+                            <a href="?query={{ query }}&page={{ p }}">{{ p }}</a></li>
+                    {% endfor %}
+                    {% if posts.number < posts.paginator.num_pages %}
+                        <li><a href="?query={{ query }}&page={{ posts.next_page_number }}">next</a></li>
+                        <li><a href="?query={{ query }}&page={{ posts.paginator.num_pages }}">last &raquo;</a></li>
+                    {% endif %}
+                    </span>
+                </ul>
+            </nav> {% endcomment %}
+<h1>P: {{ posts.paginator.page_range }}</h1>
+<h1>PAGES:{{posts.paginator.page_range }}</h1>
+<nav aria-label="pagination menu">
+  <ul class="pagination">
+    {% if posts.number > 1 %}
+        <li class="page-item">
+            <a href="?query={{ query }}&page=1" class="page-link">&laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a href="?query={{ query }}&page={{ posts.previous_page_number }}" class="page-link">previous</a>
+        </li>
+    {% endif %}
+    {% for p in posts.paginator.page_range %}
+        <li class="page-item {% if p == posts.number %}active{% endif %}">
+            <a href="?query={{ query }}&page={{ p }}" class="page-link ">{{ p }}</a> 
+        </li>
+    {% endfor %}
+    {% if posts.number < posts.paginator.page_range|last %}
+        <li class="page-item">
+            <a href="?query={{ query }}&page={{ posts.next_page_number }}" class="page-link">next</a>
+        </li>
+        <li class="page-item">
+            <a href="?query={{ query }}&page={{ posts.paginator.page_range|last}}" class="page-link">&raquo; last</a>
+        </li>
+    {% endif %}
+  </ul>
+</nav>
         </div>
         <div class="col-md-3">
             <h2>Column 3</h2>
