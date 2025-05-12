@@ -17,6 +17,21 @@ def home(request):
     return render(request, 'home.html', context)
 
 
+def showPost(request, pk):
+    post = BlogPost.objects.get(id=pk)
+    navbar = create_navbar(request, None)
+    body = code_snippet(post.body)
+    # TODO Add categories to blog post.
+
+    context = {
+        "navbar": navbar,
+        "body": body,
+        "header": False,
+        "title": post.title
+    }
+    return render(request, 'post.html', context)
+
+
 def showPage(request, pk):
     page = WebPage.objects.get(id=pk)
     navbar = create_navbar(request, page.title)
