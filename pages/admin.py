@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Tag, BlogPost, WebPage, CodeSnippet
+from .models import Category, Tag, BlogPost, WebPage, CodeSnippet, BlogSeries, BlogPostSeries
 from django import forms
 from django.utils.html import format_html
 
@@ -15,24 +15,38 @@ class CustomCategoryAdminForm(forms.ModelForm):
 class CategoryAdmin(admin.ModelAdmin):
     date_hierarchy = 'updated'
     actions = []
+    list_filter = ['level', 'created', 'updated']
     list_display = ['title', 'lft', 'rgt', 'level', 'created', 'updated']
     readonly_fields = ['created', 'updated']
-    fields = ['title', 'description', 'lft', 'rgt', 'parent',
-              'level', 'created', 'updated']
+    # fields = ['title', 'description', 'lft', 'rgt',
+    #           'level', 'created', 'updated']
     exclude = []
     form = CustomCategoryAdminForm
 
-    def save_model(self, request, obj, form, change):
+    # def save_model(self, request, obj, form, change):
         # Handle the extra field here if needed
-        parent = form.cleaned_data.get('parent')
+        # parent = form.cleaned_data.get('parent')
         # TODO How do I display a list of categories to pick a parent?
-        obj.lft = parent
+        # obj.lft = parent
         # Perform any actions with extra_field_value
-        super().save_model(request, obj, form, change)
+        # super().save_model(request, obj, form, change)
 
 
-class BLogPostAdmin(admin.ModelAdmin):
+class BlogSeriesAdmin(admin.ModelAdmin):
+    fields = ['title']
+    list_filter = ['blogpost', 'created', 'updated']
+    readonly_fields = ['created', 'updated']
+
+
+class BlogPostSeriesAdmin(admin.ModelAdmin):
+    fields = ['blogpost', 'series', 'priority']
+    list_display = ['blogpost', 'series', 'priority']
+    list_filter = ['series', 'blogpost']
+
+
+class BlogPostAdmin(admin.ModelAdmin):
     date_hierarchy = 'updated'
+    
     actions = []
     readonly_fields = ['created', 'updated']
 
@@ -50,6 +64,7 @@ class BLogPostAdmin(admin.ModelAdmin):
     fields = ['title', 'body', 'synopsis', 'author', 'status',
               'start_time', 'end_time', 'categories', 'tags', 'feature_image',
               'created', 'updated']
+    list_filter = ['author', 'status', 'created', 'updated']
     exclude = []
 
 
@@ -76,5 +91,7 @@ class CodeSnippetAdmin(admin.ModelAdmin):
 admin.site.register(Tag)
 admin.site.register(CodeSnippet, CodeSnippetAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(BlogPost, BLogPostAdmin)
+admin.site.register(BlogPost, BlogPostAdmin)
+admin.site.register(BlogSeries, BlogSeriesAdmin)
+admin.site.register(BlogPostSeries, BlogPostSeriesAdmin)
 admin.site.register(WebPage, WebPageAdmin)

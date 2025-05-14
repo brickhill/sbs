@@ -22,10 +22,14 @@ def showPost(request, pk):
     navbar = create_navbar(request, None)
     body = code_snippet(post.body)
     # TODO Add categories to blog post.
+    cards = []
+    cards.append({"type": "card", "title": "Title 1", "body": "Body 1", "link": "link1"})
+    cards.append({"type": "card", "title": "Title 2", "body": "Body 2", "link": "link2"})
 
     context = {
         "navbar": navbar,
         "body": body,
+        "cards": cards,
         "header": False,
         "title": post.title
     }
@@ -70,13 +74,22 @@ def privacy(request):
 
 def showBlog(request):
     navbar = create_navbar(request, "blog")
+    cards = []
+    print(f"CARDS TYPE {type(cards)}")
+    cards.append({
+                  "type": "card",
+                  "title": "Title 1", 
+                  "body": "Body 1", "link": "link1"
+                  })
+    cards.append({"type": "card",
+        "title": "Title 2", "body": "Body 2", "link": "link2"})
     posts = BlogPost.objects.filter(
         status=BlogPost.PUBLISHED).order_by("-updated")
     paginator = Paginator(posts, 3)  # Show 3 results per page
     page_number = request.GET.get('page')
     posts_obj = paginator.get_page(page_number)
     context = {
-        "navbar": navbar, "title": "Blog", "posts": posts_obj
+        "navbar": navbar, "title": "Blog", "posts": posts_obj, "cards": cards
     }
     return render(request, 'blog.html', context)
 

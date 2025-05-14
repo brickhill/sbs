@@ -72,7 +72,7 @@ class BlogPost(models.Model):
     end_time = models.DateTimeField(help_text="Optional end time",
                                     db_index=True, blank=True, null=True)
     categories = models.ManyToManyField(Category, help_text="Categories")
-    tags = models.ManyToManyField(Tag, help_text="Tags", blank=True, null=True)
+    tags = models.ManyToManyField(Tag, help_text="Tags", blank=False)
     feature_image = models.ImageField(blank=True, null=True)
 
     # TODO Why are tags (and categories) mandatory?
@@ -91,7 +91,40 @@ class BlogPost(models.Model):
         ]
         unique_together = []
 
+class BlogSeries(models.Model):
 
+    title = models.CharField(max_length=200, blank=False, null=False,
+                             help_text="Blog Series title", validators=[])
+    blogpost = models.ManyToManyField(BlogPost, through="BlogPostSeries")
+
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    description = RichTextUploadingField(max_length=20000, blank=True, null=True,
+                                help_text="Blog series description", validators=[])
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Blog Series"
+        verbose_name_plural = "Blog Series"
+
+
+class BlogPostSeries(models.Model):
+    blogpost = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    series = models.ForeignKey(BlogSeries, on_delete=models.CASCADE)
+    priority = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Blog Post Series"
+        verbose_name_plural = "Blog Post Series Entries"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["blogpost", "series"], name="unique_blogpost_series"
+            ),
+            models.UniqueConstraint(
+                fields=["series", "priority"], name="unique_series_priority"
+            )
+        ]
 class WebPage(models.Model):
     DRAFT = "DRAFT"
     PUBLISHED = "PUBISHED"
