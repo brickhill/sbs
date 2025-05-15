@@ -21,7 +21,7 @@ class CategoryAdmin(admin.ModelAdmin):
     # fields = ['title', 'description', 'lft', 'rgt',
     #           'level', 'created', 'updated']
     exclude = []
-    form = CustomCategoryAdminForm
+    # form = CustomCategoryAdminForm
 
     # def save_model(self, request, obj, form, change):
         # Handle the extra field here if needed

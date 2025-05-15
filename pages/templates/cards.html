@@ -8,7 +8,19 @@
                 <a href="#" class="btn btn-primary">{{ c.link }}</a>
             </div>
         </div>
-    {% elif c.type == "categories" %}
-    XXXX
+    {% elif c.type == "cat" %}
+        <div class="card" style="margin:20px;">
+            <div class="card-body"> 
+                <h5 class="card-title">{{ c.title }}</h5>
+                <ul>
+                    {% for l in c.list %}
+                        <li>
+                            <a href="#">{{ l }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% elif c.type == "" %}
     {% endif %}
 {% endfor %}

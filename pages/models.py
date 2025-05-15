@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 # from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models import Q
-from django.core.exceptions import ValidationError
-
+# from django.core.exceptions import ValidationError
 
 class Category(models.Model):
     title = models.CharField(max_length=200, blank=False, null=False,
