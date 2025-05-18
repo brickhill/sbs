@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 # from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models import Q
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 # from django.core.exceptions import ValidationError
 
 class Category(models.Model):
@@ -124,6 +126,23 @@ class BlogPostSeries(models.Model):
                 fields=["series", "priority"], name="unique_series_priority"
             )
         ]
+
+@receiver(post_save, sender=BlogPostSeries)
+def resequence_series(sender, instance, created, **kwargd):
+    entries = BlogPostSeries.objects.filter(series=instance.series).order_by("priority")
+    priority = 0
+    post_save.disconnect(resequence_series, sender=sender)
+
+    for e in entries:
+        priority -= 10
+        e.priority = priority
+        e.save()
+    for e in entries:
+        e.priority = e.priority * -1
+        e.save()
+    post_save.connect(resequence_series, sender=sender)
+
+
 class WebPage(models.Model):
     DRAFT = "DRAFT"
     PUBLISHED = "PUBISHED"
