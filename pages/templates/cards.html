@@ -15,7 +15,7 @@
                 <ul>
                     {% for l in c.list %}
                         <li>
-                            <a href="#">{{ l }}</a>
+                            <a href="{% url 'category' pk=l.id %}">{{ l }}</a>
                         </li>
                     {% endfor %}
                 </ul>

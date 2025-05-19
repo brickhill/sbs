@@ -13,6 +13,7 @@ urlpatterns = [
     path('page/<str:pk>/', views.showPage, name="showpage"),
     path('blogpost/<str:pk>/', views.showPost, name="blogpost"),
     path('blog/', views.showBlog, name="blog"),
+    path('category/<str:pk>/', views.showCategory, name="category"),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('terms/', views.terms, name="terms"),
     path('privacy/', views.privacy, name="privacy")

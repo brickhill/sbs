@@ -8,13 +8,29 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from .common import create_navbar, code_snippet
-from .models import WebPage, BlogPost
+from .models import WebPage, BlogPost, Category
 
 
 def home(request):
     navbar = create_navbar(request, 'home')
     context = {"navbar": navbar, "header": True}
     return render(request, 'home.html', context)
+
+
+def showCategory(request, pk):
+    category = Category.objects.get(id=pk)
+    navbar = create_navbar(request, None)
+    cards = []
+    cards.append({"type": "cat", "title": "Categories", "list": Category.objects.all()})
+    context = {
+        "navbar": navbar,
+        "category": category,
+        "posts": BlogPost.objects.filter(categories=category),
+        "cards": cards,
+        "header": False,
+        "title": category.title
+    }
+    return render(request, 'blog.html', context)
 
 
 def showPost(request, pk):
