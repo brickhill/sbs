@@ -39,13 +39,13 @@ def showPost(request, pk):
     body = code_snippet(post.body)
     # TODO Add categories to blog post.
     cards = []
-    if post.categories.all():
-        cards.append({"type": "cat", "title": "Categories", "list": post.categories.all()})
+    cards.append({"type": "cat", "title": "Categories", "list": Category.objects.all()})
     cards.append({"type": "card", "title": "Title 1", "body": "Body 1", "link": "link1"})
     cards.append({"type": "card", "title": "Title 2", "body": "Body 2", "link": "link2"})
 
     context = {
         "navbar": navbar,
+        "post": post,
         "body": body,
         "cards": cards,
         "header": False,

@@ -4,6 +4,14 @@
     <div class="row">
         <div class="col-md-8">
             <h2>{{ title }}</h2>
+            {% for c in post.categories.all %}
+                    
+                <b><i>{{ c.title }}</i>
+                    {% if not forloop.last %}
+                        ,&nbsp;
+                    {% endif %}
+                </b> 
+            {% endfor %}
             <p>{{ body|safe }}</p>
         </div>
         <div class="col-md-4">
