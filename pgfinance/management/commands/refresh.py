@@ -50,7 +50,7 @@ class Command(BaseCommand):
               "Created: {added}, Updated:{updated}")
 
     def indices(self, options):
-        print("INDICIES REFRESH")
+        print("INDICES REFRESH")
         added = 0
         updated = 0
         stock_data = PyTickerSymbols()

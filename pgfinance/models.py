@@ -34,6 +34,7 @@ class Index(models.Model):
                             blank=False,
                             null=False,
                             unique=True,
+                            db_index=True,
                             help_text="Index Name",
                             validators=[])
     updated = models.DateTimeField(auto_now=True)
@@ -73,12 +74,7 @@ class Industry(models.Model):
 
 
 class Company(models.Model):
-    EURO = "EUR"
-    USDOLLAR = "USD"
-    STERLING = "GBP"
-    CURRENCY_CHOICES = ((EURO, "Euro"),
-                        (USDOLLAR, "US Dollar"),
-                        (STERLING, "Sterling"))
+
     ACTIVE = "A"
     INACTIVE = "I"
     STATUS_CHOICES = (
@@ -106,9 +102,6 @@ class Company(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=False, null=False)
     index = models.ManyToManyField(Index, help_text="Indices", blank=False)
     industry = models.ManyToManyField(Industry, help_text="Industries", blank=False)
-    symbol_yahoo = models.CharField(max_length=8, blank=True, null=True, help_text="Yahoo symbol")
-    symbol_google = models.CharField(max_length=8, blank=True, null=True, help_text="Google symbol")
-    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     prices_updated = models.DateTimeField(null=True, blank=True, help_text="Last Time Prices were updated")
@@ -124,3 +117,28 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+class Lookup(models.Model):
+    EURO = "EUR"
+    USDOLLAR = "USD"
+    STERLING = "GBP"
+    CURRENCY_CHOICES = ((EURO, "Euro"),
+                        (USDOLLAR, "US Dollar"),
+                        (STERLING, "Sterling"))
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=False, null=False, db_index=True)
+    symbol_yahoo = models.CharField(max_length=8, blank=False, null=False, help_text="Data source")
+    symbol_google = models.CharField(max_length=8, blank=False, null=False, help_text="Google symbol")
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, null=False, blank=False, 
+                                db_index=True, help_text="Currency Code")
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Data lookup'
+        verbose_name_plural = 'Data lookups'
+        ordering = ['company']
+        indexes = []
+        unique_together = [['company', 'symbol_yahoo', 'currency'],['company', 'symbol_google', 'currency']]
+    
+    def __str__(self):
+        return f"{self.company}/{self.symbol_yahoo}/{self.symbol_google}/{self.currency}"
