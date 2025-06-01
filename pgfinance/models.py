@@ -165,7 +165,7 @@ class Price(models.Model):
         verbose_name = 'Price'
         verbose_name_plural = 'Prices'
         ordering = ['company', 'price_time']
-        index_together = [('company', 'price_time')]
+        # index_together = [('company', 'price_time')]
         # unique_together = [['company', 'period', 'price_time']]
     
     def __str__(self):
