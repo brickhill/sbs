@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 else:
                     updated += 1
         print(f"Finished.  Retrieved {len(countries)}, "
-              "Created: {added}, Updated:{updated}")
+              f"Created: {added}, Updated:{updated}")
 
     def indices(self, options):
         print("INDICES REFRESH")
@@ -68,7 +68,7 @@ class Command(BaseCommand):
                 else:
                     updated += 1
         print(f"Finished.  Retrieved {len(indicies)}, "
-              "Created: {added}, Updated:{updated}")
+              f"Created: {added}, Updated:{updated}")
 
     def industries(self, options):
         print("INDUSTRIES REFRESH")
