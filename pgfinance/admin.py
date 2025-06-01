@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, Index, Industry, Company, Lookup
+from .models import Country, Index, Industry, Company, Lookup, Price
 
 
 class CountryAdmin(admin.ModelAdmin):
@@ -52,8 +52,15 @@ class LookupAdmin(admin.ModelAdmin):
     list_display = ['company', 'symbol_yahoo', 'symbol_google', 'currency']
     readonly_fields = ['created', 'updated']
 
+class PriceAdmin(admin.ModelAdmin):
+    date_hierarchy = 'price_time'
+    actions = []
+    list_filter = ['company']
+    list_display = ['price_time', 'company', 'open', 'high', 'low', 'close', 'volume']
+
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Index, IndexAdmin)
 admin.site.register(Industry, IndustryAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Lookup, LookupAdmin)
+admin.site.register(Price, PriceAdmin)

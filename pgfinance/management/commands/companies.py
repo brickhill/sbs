@@ -52,19 +52,3 @@ class Command(BaseCommand):
                     currency = currency
                 )
                 new_lookup.save()
-
-        '''
-        ####### Name:3i Group PLC
-        ####### Country:United Kingdom
-        ####### Indices:['FTSE 100']
-        ####### Industries:['Banking & Investment Services', 'Investment Banking & Investment Services', 
-        ####### 'Financials', 'Investment Management & Fund Operators']
-        Symbols: [
-        {'yahoo': 'IGQ5.F', 'google': 'FRA:IGQ5', 'currency': 'EUR'}, 
-        {'yahoo': 'TGOPY', 'google': 'OTCMKTS:TGOPY', 'currency': 'USD'},
-        {'yahoo': 'III.L', 'google': 'LON:III', 'currency': 'GBP'},
-        {'yahoo': 'IGQ.F', 'google': 'FRA:IGQ', 'currency': 'EUR'},
-        {'yahoo': 'TGOPF', 'google': 'OTCMKTS:TGOPF', 'currency': 'USD'}]
-        '''
-
-
