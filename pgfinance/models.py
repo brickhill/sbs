@@ -126,8 +126,8 @@ class Lookup(models.Model):
                         (USDOLLAR, "US Dollar"),
                         (STERLING, "Sterling"))
     company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=False, null=False, db_index=True)
-    symbol_yahoo = models.CharField(max_length=8, blank=False, null=False, help_text="Data source")
-    symbol_google = models.CharField(max_length=8, blank=False, null=False, help_text="Google symbol")
+    symbol_yahoo = models.CharField(max_length=20, blank=False, null=False, help_text="Data source")
+    symbol_google = models.CharField(max_length=20, blank=False, null=False, help_text="Google symbol")
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, null=False, blank=False, 
                                 db_index=True, help_text="Currency Code")
     updated = models.DateTimeField(auto_now=True)

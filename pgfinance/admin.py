@@ -39,8 +39,8 @@ class LookupInline(admin.TabularInline):
 class CompanyAdmin(admin.ModelAdmin):
     date_hierarchy = 'prices_updated'
     actions = []
-    list_filter = ['country', 'index', 'industry']
-    list_display = ['symbol', 'name', 'prices_updated']
+    list_filter = ['country', 'status', 'index', 'industry']
+    list_display = ['symbol', 'status', 'name', 'prices_updated']
     readonly_fields = ['created', 'updated']
     inlines = [LookupInline,]
 

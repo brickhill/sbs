@@ -16,23 +16,23 @@ class Command(BaseCommand):
         if index is None:
             print(f"Index: {options['index']} not found")
             exit(99)
-        
+
         stock_data = PyTickerSymbols()
         uk_stocks = stock_data.get_stocks_by_index(options['index'])
         for u in uk_stocks:
             country = Country.objects.filter(name=u['country'])[0]
             new_company, created = Company.objects.update_or_create(
-            name=u['name'],
-            symbol=u['symbol'],
-            country=country
+                name=u['name'],
+                symbol=u['symbol'],
+                country=country
             )
             new_company.save()
             for i in u['indices']:
                 new_company.index.add(Index.objects.get(name=i))
-            
+
             for i in u['industries']:
                 new_company.industry.add(Industry.objects.get(name=i))
-            
+
             for s in u['symbols']:
                 print(s)
                 if s['currency'] == 'EUR':
@@ -44,11 +44,12 @@ class Command(BaseCommand):
                 else:
                     print(f"Unknown Currency: {s['currency']}")
                     exit(96)
-                print(f"{new_company} GOOGLE {s['google']} YAHOO {s['yahoo']} currency {s['currency']}")
+                print(f"{new_company} GOOGLE {s['google']} YAHOO {s['yahoo']} "
+                      f"currency {s['currency']}")
                 new_lookup, created = Lookup.objects.update_or_create(
-                    company = new_company,
-                    symbol_yahoo = s['yahoo'],
-                    symbol_google = s['google'],
-                    currency = currency
+                    company=new_company,
+                    symbol_yahoo=s['yahoo'],
+                    symbol_google=s['google'],
+                    currency=currency
                 )
                 new_lookup.save()
