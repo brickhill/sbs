@@ -115,3 +115,5 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SILENCED_SYSTEM_CHECKS = ["ckeditor.W001"]
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000

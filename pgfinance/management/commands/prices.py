@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from pgfinance.models import Company, Price
+from pgfinance.models import Company, Price, Lookup
 import pickle
 from django.db.models import Q
 import pytz
@@ -28,8 +28,9 @@ class Command(BaseCommand):
         order_by("prices_updated")[:options['count']]
         ticker_list = []
         for h in historical_companies:
-            ticker_list.append(f"{h.symbol}.L")
-
+            lookup = Lookup.objects.filter(Q(company=h) & Q(currency=Lookup.STERLING))[0]
+            ticker_list.append(f"{lookup}")
+        print(ticker_list)
         historical_data = yf.download(ticker_list, period='max',auto_adjust=True)
         pickle_file = open("pickle2.txt", "ab")
         pickle.dump(historical_data, pickle_file)

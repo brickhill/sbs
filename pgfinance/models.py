@@ -141,7 +141,7 @@ class Lookup(models.Model):
         unique_together = [['company', 'symbol_yahoo', 'currency'],['company', 'symbol_google', 'currency']]
     
     def __str__(self):
-        return f"{self.company}/{self.symbol_yahoo}/{self.symbol_google}/{self.currency}"
+        return self.symbol_yahoo
 
 class Price(models.Model):
     DAILY = "D"
@@ -153,6 +153,8 @@ class Price(models.Model):
     price_time = models.DateTimeField(null=False, blank=False, help_text="Price Time")
     period = models.CharField(max_length=1, null=False, blank=False, default=DAILY, help_text="Period")
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=False, blank=False, db_index=True)
+    lookup = models.ForeignKey(Lookup, on_delete=models.CASCADE, null=False,
+                                blank=False, db_index=True)
     open = models.FloatField()
     high = models.FloatField()
     low = models.FloatField()
@@ -169,4 +171,4 @@ class Price(models.Model):
         # unique_together = [['company', 'period', 'price_time']]
     
     def __str__(self):
-        return f"{self.company} ({self.price_time}) [{self.PERIOD_CHOICES[self.period]}]"
+        return f"{self.company} ({self.price_time})"
