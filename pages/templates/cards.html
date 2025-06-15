@@ -21,6 +21,33 @@
                 </ul>
             </div>
         </div>
-    {% elif c.type == "" %}
+    {% elif c.type == "series" %}
+        <div class="card" style="margin:20px;">
+            <div class="card-body"> 
+                <h5 class="card-title">{{ c.title }} (series)</h5>
+                <ul>
+                    {% for l in c.list %}
+                        <li>
+                            <a href="{% url 'blogpost' pk=l.blogpost.id %}">
+                                {% if post.id == l.blogpost.id %}<b>{% endif %}
+                                {{ l }}</a>
+                                {% if post.id == l.blogpost.id %}</b>{% endif %}
+
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% elif c.type == "search" %}
+        <div class="card" style="margin:20px;">
+            <div class="card-body"> 
+                <h5 class="card-title">Search</h5>
+                <form action="/search/" method="post">
+                    {% csrf_token %}
+                    {{ c.form.as_table }}
+                    <br/><input type="submit" class="btn btn-primary" value="Search">
+                </form>
+            </div>
+        </div>
     {% endif %}
 {% endfor %}

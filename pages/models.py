@@ -5,7 +5,8 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models import Q
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-# from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError
+
 
 class Category(models.Model):
     title = models.CharField(max_length=200, blank=False, null=False,
@@ -62,8 +63,11 @@ class BlogPost(models.Model):
     synopsis = models.TextField(max_length=20000, blank=True, null=True,
                                 help_text="Synopsis", validators=[])
     updated = models.DateTimeField(auto_now=True)
-    type = models.CharField(max_length=7, blank=False, null=False,
-    default=PAGE, choices=TYPE_CHOICES)
+    type = models.CharField(max_length=7,
+                            blank=False,
+                            null=False,
+                            default=PAGE,
+                            choices=TYPE_CHOICES)
     created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES,
@@ -92,6 +96,7 @@ class BlogPost(models.Model):
         ]
         unique_together = []
 
+
 class BlogSeries(models.Model):
 
     title = models.CharField(max_length=200, blank=False, null=False,
@@ -100,8 +105,13 @@ class BlogSeries(models.Model):
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    description = RichTextUploadingField(max_length=20000, blank=True, null=True,
-                                help_text="Blog series description", validators=[])
+    description = RichTextUploadingField(
+                                         max_length=20000,
+                                         blank=True,
+                                         null=True,
+                                         help_text="Blog series description",
+                                         validators=[])
+
     def __str__(self):
         return self.title
 
@@ -115,6 +125,9 @@ class BlogPostSeries(models.Model):
     series = models.ForeignKey(BlogSeries, on_delete=models.CASCADE)
     priority = models.IntegerField()
 
+    def __str__(self):
+        return self.blogpost.title
+
     class Meta:
         verbose_name = "Blog Post Series"
         verbose_name_plural = "Blog Post Series Entries"
@@ -127,9 +140,11 @@ class BlogPostSeries(models.Model):
             )
         ]
 
+
 @receiver(post_save, sender=BlogPostSeries)
 def resequence_series(sender, instance, created, **kwargd):
-    entries = BlogPostSeries.objects.filter(series=instance.series).order_by("priority")
+    entries = BlogPostSeries.objects.filter(
+                        series=instance.series).order_by("priority")
     priority = 0
     post_save.disconnect(resequence_series, sender=sender)
 
@@ -151,16 +166,22 @@ class WebPage(models.Model):
     PRIVACY = "PRIVACY"
     STATUS_CHOICES = ((DRAFT, "Draft"), (PUBLISHED, "Published"))
     TYPE_CHOICES = (
-        (PAGE, "Page"), (TERMS, "Terms & Conditions"), (PRIVACY, "Privacy Policy")
-    )
+                    (PAGE, "Page"),
+                    (TERMS, "Terms & Conditions"),
+                    (PRIVACY, "Privacy Policy")
+                   )
     title = models.CharField(max_length=200, blank=False, null=False,
                              help_text="Post title", validators=[])
     body = RichTextUploadingField(max_length=20000, null=False, blank=False,
                                   help_text="Blog body")
     synopsis = models.TextField(max_length=20000, blank=True, null=True,
                                 help_text="Synopsis", validators=[])
-    type = models.CharField(max_length=8, null=False, blank=False, choices=TYPE_CHOICES,
-                            default=PAGE, help_text="Page Type")
+    type = models.CharField(max_length=8,
+                            null=False,
+                            blank=False,
+                            choices=TYPE_CHOICES,
+                            default=PAGE,
+                            help_text="Page Type")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -178,17 +199,11 @@ class WebPage(models.Model):
     def __str__(self):
         return self.title
 
-    def clean(self, *args,**kwargs):
-        cleaned_data = super().clean()
-        print(f"Custom validation:({self.id})")
-        print(f"Custom validation:({self.type})")
-        print(f"Custom validation:({self})")
+    def clean(self, *args, **kwargs):
+        super().clean()
         if self.type == self.TERMS or self.type == self.PRIVACY:
-            print("MNE1")
             result = WebPage.objects.filter(Q(type=self.type) & ~Q(id=self.id))
-            print("MNE2")
             if result:
-                print("MNE3")
                 msg = f"Already type {self.type}"
                 raise ValidationError({"type": msg})
 
@@ -207,7 +222,7 @@ class CodeSnippet(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False,
                              help_text="Snippet title")
     snippet = models.TextField(max_length=20000, blank=False, null=False,
-                              help_text="Code Snippet")
+                               help_text="Code Snippet")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 

@@ -56,7 +56,7 @@ class PriceAdmin(admin.ModelAdmin):
     date_hierarchy = 'price_time'
     actions = []
     list_filter = ['company']
-    list_display = ['price_time', 'company', 'open', 'high', 'low', 'close', 'volume']
+    list_display = ['price_time', 'company', 'lookup', 'open', 'high', 'low', 'close', 'volume']
 
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Index, IndexAdmin)

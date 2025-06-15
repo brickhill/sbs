@@ -31,44 +31,37 @@ class Command(BaseCommand):
             lookup = Lookup.objects.filter(Q(company=h) & Q(currency=Lookup.STERLING))[0]
             ticker_list.append(f"{lookup}")
         print(ticker_list)
-        historical_data = yf.download(ticker_list, period='max',auto_adjust=True)
-        pickle_file = open("pickle2.txt", "ab")
-        pickle.dump(historical_data, pickle_file)
-
-        # Live
-        # company = Company.objects.filter(symbol="III")[0]
-        # historical_data = ticker.history(period="max")  # the last month
-        # pickle_file = open("pickle.txt", "ab")
+        ##### Get prices from Yahoo!
+        # historical_data = yf.download(ticker_list, period='max',auto_adjust=True)
+        # pickle_file = open("pickle2.txt", "ab")
         # pickle.dump(historical_data, pickle_file)
 
         # Test
-        # pickle_file = open("pickle.txt", "rb")
-        # historical_data = pickle.load(pickle_file)
-        # print(type(historical_data))
-        # for h in historical_data:
-        #     print(h)
+        pickle_file = open("pickle2.txt", "rb")
+        i=0
+        historical_data = pickle.load(pickle_file)
+        historical_data = historical_data.fillna(0)
+        print(type(historical_data))
+        for h in historical_companies:
+            lookup = Lookup.objects.filter(Q(company=h) & Q(currency=Lookup.STERLING))[0]
+            print(f"LU:{lookup}")
+            for index, row in historical_data.iterrows():
+                # print(f"({lookup})>>>>>row:{row.get('Close')[lookup.symbol_yahoo]} <<<<<<<")
+                obj, created = Price.objects. \
+                update_or_create(
+                                company=lookup.company,
+                                price_time=index.
+                                to_pydatetime(),
+                                open=row.get('Open')[lookup.symbol_yahoo],
+                                high=row.get('High')[lookup.symbol_yahoo],
+                                low=row.get('Low')[lookup.symbol_yahoo],
+                                close=row.get('Close')[lookup.symbol_yahoo],
+                                volume=row.get('Volume')[lookup.symbol_yahoo],
+                                lookup=lookup
+                                # dividends=row['Dividends'].get(lookup),
+                                # stock_splits=row['Stock Splits'].get(lookup)
+                                )
 
-        # for index, row in historical_data.iterrows():
-        #     obj, created = Price.objects. \
-        #         update_or_create(
-        #                         company=company,
-        #                         price_time=index.
-        #                         to_pydatetime(),
-        #                         open=row['Open'],
-        #                         high=row['High'],
-        #                         low=row['Low'],
-        #                         close=row['Close'],
-        #                         volume=row['Volume'],
-        #                         dividends=row['Dividends'],
-        #                         stock_splits=row['Stock Splits']
-        #                         )
-
-        # print(dat.info)
-        # print(dat.calendar)
-        # print(dat.analyst_price_targets)
-        # print(dat.quarterly_income_stmt)
-        # print(dat.history(period='1mo'))
-        # print(dat.option_chain(dat.options[0]).calls)
         print("Prices END")
         
         

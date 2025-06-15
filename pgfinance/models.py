@@ -144,6 +144,7 @@ class Lookup(models.Model):
         return self.symbol_yahoo
 
 class Price(models.Model):
+    
     DAILY = "D"
     FIVEMIN = "5"
     PERIOD_CHOICES = (
@@ -155,13 +156,13 @@ class Price(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=False, blank=False, db_index=True)
     lookup = models.ForeignKey(Lookup, on_delete=models.CASCADE, null=False,
                                 blank=False, db_index=True)
-    open = models.FloatField()
-    high = models.FloatField()
-    low = models.FloatField()
-    close = models.FloatField()
-    volume = models.BigIntegerField()
-    dividends = models.FloatField()
-    stock_splits = models.FloatField()
+    open = models.FloatField(null=True, blank=True)
+    high = models.FloatField(null=True, blank=True)
+    low = models.FloatField(null=True, blank=True)
+    close = models.FloatField(null=True, blank=True)
+    volume = models.BigIntegerField(null=True, blank=True)
+    dividends = models.FloatField(null=True, blank=True)
+    stock_splits = models.FloatField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Price'

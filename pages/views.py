@@ -8,8 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from .common import create_navbar, code_snippet
-from .models import WebPage, BlogPost, Category
-
+from .models import WebPage, BlogPost, Category, BlogPostSeries
+from .forms import SearchSite
 
 def home(request):
     navbar = create_navbar(request, 'home')
@@ -21,7 +21,8 @@ def showCategory(request, pk):
     category = Category.objects.get(id=pk)
     navbar = create_navbar(request, None)
     cards = []
-    cards.append({"type": "cat", "title": "Categories", "list": Category.objects.all()})
+    cards.append({"type": "cat", "title": "Categories",
+                  "list": Category.objects.all()})
     context = {
         "navbar": navbar,
         "category": category,
@@ -37,11 +38,22 @@ def showPost(request, pk):
     post = BlogPost.objects.get(id=pk)
     navbar = create_navbar(request, None)
     body = code_snippet(post.body)
-    # TODO Add categories to blog post.
     cards = []
-    cards.append({"type": "cat", "title": "Categories", "list": Category.objects.all()})
-    cards.append({"type": "card", "title": "Title 1", "body": "Body 1", "link": "link1"})
-    cards.append({"type": "card", "title": "Title 2", "body": "Body 2", "link": "link2"})
+    cards.append({"type": "cat", "title": "Categories",
+                  "list": Category.objects.all()})
+    series = BlogPostSeries.objects.filter(id=pk)
+    for s in series:
+        # print(f"ATTRIBUTE:{dir(s.series)}")
+        print(s.series.blogpostseries_set.all())
+        cards.append({"type": "series", "title": s.series,
+                      "list": s.series.blogpostseries_set.all().
+                      order_by('priority')
+                      })
+    form = SearchSite()
+    cards.append({"type": "search", "title": "Search", "form": form,
+                  "link": "searchsite"})
+    cards.append({"type": "card", "title": "Title 2", "body": "Body 2",
+                  "link": "link2"})
 
     context = {
         "navbar": navbar,
@@ -93,14 +105,13 @@ def privacy(request):
 def showBlog(request):
     navbar = create_navbar(request, "blog")
     cards = []
-    print(f"CARDS TYPE {type(cards)}")
     cards.append({
                   "type": "card",
-                  "title": "Title 1", 
+                  "title": "Title 1",
                   "body": "Body 1", "link": "link1"
                   })
     cards.append({"type": "card",
-        "title": "Title 2", "body": "Body 2", "link": "link2"})
+                  "title": "Title 2", "body": "Body 2", "link": "link2"})
     posts = BlogPost.objects.filter(
         status=BlogPost.PUBLISHED).order_by("-updated")
     paginator = Paginator(posts, 3)  # Show 3 results per page
