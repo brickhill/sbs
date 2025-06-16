@@ -16,6 +16,7 @@ urlpatterns = [
     path('category/<str:pk>/', views.showCategory, name="category"),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('terms/', views.terms, name="terms"),
-    path('privacy/', views.privacy, name="privacy")
+    path('privacy/', views.privacy, name="privacy"),
+    path('search/', views.search, name="search")
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

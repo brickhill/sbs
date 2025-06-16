@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from .common import create_navbar, code_snippet
 from .models import WebPage, BlogPost, Category, BlogPostSeries
-from .forms import SearchSite
+from .forms import SearchSite, LoginPage
 
 def home(request):
     navbar = create_navbar(request, 'home')
@@ -143,8 +143,8 @@ def login_page(request):
             return redirect('home')
         else:
             messages.error(request, "Username or password wrong")
-
-    context = {'page': page}
+    form = LoginPage
+    context = {'page': page, 'form': form}
     return render(request, "login_registration.html", context)
 
 
@@ -153,6 +153,12 @@ def logoutUser(request):
     messages.info(request, 'logged out')
     return redirect('home')
 
+
+def search(request):
+
+    print(f"IN SEARCH: {request.POST['query']}")
+    context = {'query': request.POST['query']}
+    return render(request, 'search.html', context=context)
 
 def registerPage(request):
     form = UserCreationForm()
