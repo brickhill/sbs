@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 # from django.http import HttpResponse
 # from django.contrib.auth.decorators import login_required
-# from django.db.models import Q
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from .common import create_navbar, code_snippet
 from .models import WebPage, BlogPost, Category, BlogPostSeries
 from .forms import SearchSite, LoginPage
+
 
 def home(request):
     navbar = create_navbar(request, 'home')
@@ -155,10 +156,26 @@ def logoutUser(request):
 
 
 def search(request):
-
+    # TODO Add pages to search.
     print(f"IN SEARCH: {request.POST['query']}")
-    context = {'query': request.POST['query']}
+    search_string = request.POST['query']
+    navbar = create_navbar(request, "search")
+    cards = []
+    results = BlogPost.objects.filter(Q(title__icontains=search_string) |
+                                      Q(body__icontains=search_string)). \
+        order_by("-updated")
+    paginator = Paginator(results, 3)  # Show 3 results per page
+    page_number = request.GET.get('page')
+    results_obj = paginator.get_page(page_number)
+    context = {
+        "navbar": navbar,
+        "title": "Blog",
+        "results": results_obj,
+        "cards": cards,
+        'query': search_string
+    }
     return render(request, 'search.html', context=context)
+
 
 def registerPage(request):
     form = UserCreationForm()

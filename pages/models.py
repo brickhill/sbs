@@ -58,8 +58,8 @@ class BlogPost(models.Model):
     )
     title = models.CharField(max_length=200, blank=False, null=False,
                              help_text="Post title", validators=[])
-    body = models.TextField(max_length=20000, blank=False, null=False,
-                            help_text="Blog body")
+    body = RichTextUploadingField(max_length=20000, blank=False, null=False,
+                                  help_text="Blog body")
     synopsis = models.TextField(max_length=20000, blank=True, null=True,
                                 help_text="Synopsis", validators=[])
     updated = models.DateTimeField(auto_now=True)
@@ -76,11 +76,12 @@ class BlogPost(models.Model):
                                       db_index=True, blank=True,  null=True)
     end_time = models.DateTimeField(help_text="Optional end time",
                                     db_index=True, blank=True, null=True)
-    categories = models.ManyToManyField(Category, help_text="Categories")
-    tags = models.ManyToManyField(Tag, help_text="Tags", blank=False)
+    categories = models.ManyToManyField(Category,
+                                        help_text="Categories",
+                                        blank=True)
+    tags = models.ManyToManyField(Tag, help_text="Tags", blank=True)
     feature_image = models.ImageField(blank=True, null=True)
 
-    # TODO Why are tags (and categories) mandatory?
     # TODO Add comments (hierarchical)
 
     def __str__(self):
