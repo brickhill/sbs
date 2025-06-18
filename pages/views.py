@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from .common import create_navbar, code_snippet
 from .models import WebPage, BlogPost, Category, BlogPostSeries
-from .forms import SearchSite, LoginPage
+from .forms import SearchSite, LoginPage, ContactForm
 
 
 def home(request):
@@ -192,3 +192,17 @@ def registerPage(request):
             messages.error(request, "An error occurred during registration")
 
     return render(request, 'login_registration.html', {'form': form})
+
+
+def contactForm(request):
+    navbar = create_navbar(request, "contact")
+    cards = []
+    form = ContactForm()
+    print(f"FORM:{str(form)}")
+    context = {
+        "navbar": navbar,
+        "title": "Contact",
+        "cards": cards,
+        "form": form
+    }
+    return render(request, 'contact.html', context=context)

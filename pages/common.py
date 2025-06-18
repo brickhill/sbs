@@ -36,6 +36,12 @@ def create_navbar(request, current):
                 "active": True if current == "blog" else ""
     }
     navbar.append(this_dict)
+    this_dict = {
+                "link": "contact",
+                "label": "Contact",
+                "active": True if current == "contact" else ""
+    }
+    navbar.append(this_dict)
     menu_items = WebPage.objects.filter(
         Q(status=WebPage.PUBLISHED) 
         & Q(level=1)
