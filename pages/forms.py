@@ -9,9 +9,12 @@ class SearchSite(forms.Form):
 
 
 class LoginPage(forms.Form):
-    username = forms.CharField(label="Username", max_length=20)
+    username = forms.CharField(label="Username", max_length=20,
+                               widget=forms.TextInput(
+                                attrs={'class': 'form-control'}
+                                                ))
     password = forms.CharField(label="Password", max_length=20,
-                               widget=forms.PasswordInput())
+                               widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
 class ContactForm(forms.Form):

@@ -1,57 +1,35 @@
 {% extends "main.html" %}
 {% block content %}     
 {% if page == 'login' %}
-    <h1>BBBBBB</h1>
-    <div>
-        <form method="POST" action="">
-            {% csrf_token %}
-            {% if form.non_field_errors %}
-                <ul>
-                    {% for error in form.non_field_errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
 
-            {% for hidden_field in form.hidden_fields %}
-                {% if hidden_field.errors %}
-                    <ul>
-                        {% for error in hidden_field.errors %}
-                            <li>(Hidden field {{ hidden_field.name }}) {{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                {{ hidden_field }}
-            {% endfor %}
-
-            <table border="0" padding="5px" spacing="5px">
-                {% for field in form.visible_fields %}
-                <tr>
-                    <th>{{ field.label_tag }}</th>
-                    <td>
-                    {% if field.errors %}
-                        <ul>
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {{ field }}
-                    {% if field.help_text %}
-                        <br />{{ field.help_text }}
-                    {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            <input type="submit" value="login" class="btn btn-primary"/>
-        </form>
-        <p>Haven't signed up?</p>
-        <a href="{% url 'register'%}">Sign up</a>
+<div class="container my-5 col-md-12">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Contact form</h1>
+            <div class="form-group">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary">Sign in</button>
+                </form>
+                <p>Haven't signed up?</p>
+                <a href="{% url 'register'%}">Sign up</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% include 'cards.html' %}
+        </div>
     </div>
+</div>
+
+
+
+
+
+
+
 {% else %}
     <div>
-        <h1>CCCCC</h1>
         <form method="POST" action="">
             {% csrf_token %}
             {{ form.as_p }}
