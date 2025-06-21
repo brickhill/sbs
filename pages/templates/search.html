@@ -6,9 +6,17 @@
             SEARCH
             <h1>{{ query }}</h1>
             {% for result in results %}
-                <h3><a href="{% url "blogpost" result.id %}">{{ result.title}}</a><h3>
+            <h2>XXXX{{ result.get_class }}</h2>
+            {% if result.get_class == 'WebPage' %}
+                <h3><a href="{% url 'showpage' result.id %}">{{ result.title}}</a><h3>
                 <small>Author: {{ result.author}} : <i>{{ result.updated}}</i></small>
                 <p>{{ result.synopsis }}</p>
+            {% else %}
+                <h3><a href="{% url 'blogpost' result.id %}">{{ result.title}}</a><h3>
+                <small>Author: {{ result.author}} : <i>{{ result.updated}}</i></small>
+                <p>{{ result.synopsis }}</p>
+            {% endif %}
+
             {% endfor %}
             {% if results.paginator.page_range > 1 %}
                 <nav aria-label="pagination menu">

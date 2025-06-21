@@ -45,8 +45,14 @@
                 <form action="/search/" method="post">
                     {% csrf_token %}
                     {{ c.form.as_table }}
-                    <br/><input type="submit" class="btn btn-primary" value="Search">
+                    <br/><input type="submit" class="btn btn-primary" value="Go">
                 </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="card" style="margin: 2px;">
+            <div class="card-body">
+                <h1>Unknown Box type; {{c.type}}<h1>
             </div>
         </div>
     {% endif %}

@@ -84,6 +84,9 @@ class BlogPost(models.Model):
 
     # TODO Add comments (hierarchical)
 
+    def get_class(self):
+        return self.__class__.__name__
+    
     def __str__(self):
         return self.title
 
@@ -126,6 +129,7 @@ class BlogPostSeries(models.Model):
     series = models.ForeignKey(BlogSeries, on_delete=models.CASCADE)
     priority = models.IntegerField()
 
+    
     def __str__(self):
         return self.blogpost.title
 
@@ -199,6 +203,9 @@ class WebPage(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_class(self):
+        return self.__class__.__name__
 
     def clean(self, *args, **kwargs):
         super().clean()

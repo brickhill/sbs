@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from .common import create_navbar, code_snippet
 from .models import WebPage, BlogPost, Category, BlogPostSeries
 from .forms import SearchSite, LoginPage, ContactForm
+from itertools import chain
 
 
 def home(request):
@@ -22,6 +23,9 @@ def showCategory(request, pk):
     category = Category.objects.get(id=pk)
     navbar = create_navbar(request, None)
     cards = []
+    form = SearchSite()
+    cards.append({"type": "search", "title": "Search", "form": form,
+                  "link": "searchsite"})
     cards.append({"type": "cat", "title": "Categories",
                   "list": Category.objects.all()})
     context = {
@@ -44,8 +48,6 @@ def showPost(request, pk):
                   "list": Category.objects.all()})
     series = BlogPostSeries.objects.filter(id=pk)
     for s in series:
-        # print(f"ATTRIBUTE:{dir(s.series)}")
-        print(s.series.blogpostseries_set.all())
         cards.append({"type": "series", "title": s.series,
                       "list": s.series.blogpostseries_set.all().
                       order_by('priority')
@@ -106,6 +108,11 @@ def privacy(request):
 def showBlog(request):
     navbar = create_navbar(request, "blog")
     cards = []
+    form = SearchSite()
+    cards.append({"type": "search", "title": "Search", "form": form,
+                  "link": "searchsite"})
+    cards.append({"type": "cat", "title": "Categories",
+                  "list": Category.objects.all()})
     cards.append({
                   "type": "card",
                   "title": "Title 1",
@@ -157,13 +164,18 @@ def logoutUser(request):
 
 def search(request):
     # TODO Add pages to search.
-    print(f"IN SEARCH: {request.POST['query']}")
     search_string = request.POST['query']
     navbar = create_navbar(request, "search")
     cards = []
     results = BlogPost.objects.filter(Q(title__icontains=search_string) |
                                       Q(body__icontains=search_string)). \
         order_by("-updated")
+    page_results = WebPage.objects.filter(Q(title__icontains=search_string) |
+                                      Q(body__icontains=search_string)). \
+        order_by("-updated")
+    results = list(chain(results, page_results))
+    for r in results:
+        print(f"NOB:{r.__class__.__name__}")
     paginator = Paginator(results, 3)  # Show 3 results per page
     page_number = request.GET.get('page')
     results_obj = paginator.get_page(page_number)
