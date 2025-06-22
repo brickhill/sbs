@@ -1,4 +1,5 @@
 from django import forms
+from captcha.fields import CaptchaField
 
 
 class SearchSite(forms.Form):
@@ -36,6 +37,8 @@ class ContactForm(forms.Form):
     message = forms.CharField(label="Your message", max_length=2000,
                              widget=forms.Textarea(attrs={'class': 'form-control'})
                               )
+    
+    captcha = CaptchaField()
 
     class Meta:
 
