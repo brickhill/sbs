@@ -213,7 +213,18 @@ def registerPage(request):
 def contactForm(request):
     navbar = create_navbar(request, "contact")
     cards = []
-    form = ContactForm()
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            print("FORM VALID")
+            messages.info(request, "Thanks for the message, we will be in touch soon.")
+            # messages.info(request, "Three credits remain in your account.")
+            # messages.error(request, "ERROR")
+            # messages.success(request, "SUCCESS")
+            # messages.warning(request, "WARNING")
+    else:
+        form = ContactForm()
+
     context = {
         "navbar": navbar,
         "title": "Contact",
@@ -221,30 +232,6 @@ def contactForm(request):
         "form": form
     }
     return render(request, 'contact.html', context=context)
-
-
-'''
-# if this is a POST request we need to process the form data
-    if request.method == "POST":
-        # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect("/thanks/")
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = NameForm()
-
-    return render(request, "name.html", {"form": form})
-'''
-
-
-
-
 
 
 def recentPosts(count=5):

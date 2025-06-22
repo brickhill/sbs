@@ -33,6 +33,9 @@ class ContactForm(forms.Form):
                                 attrs={'class': 'form-control'}
                                                    )
                             )
+    message = forms.CharField(label="Your message", max_length=2000,
+                             widget=forms.Textarea(attrs={'class': 'form-control'})
+                              )
 
     class Meta:
 
