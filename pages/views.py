@@ -55,6 +55,7 @@ def showPost(request, pk):
     form = SearchSite()
     cards.append({"type": "search", "title": "Search", "form": form,
                   "link": "searchsite"})
+    cards.append({"type": "recentposts", "title": "Recent", "posts": recentPosts(count=5)})
     cards.append({"type": "card", "title": "Title 2", "body": "Body 2",
                   "link": "link2"})
 
@@ -106,6 +107,7 @@ def privacy(request):
 
 
 def showBlog(request):
+ 
     navbar = create_navbar(request, "blog")
     cards = []
     form = SearchSite()
@@ -128,6 +130,11 @@ def showBlog(request):
     context = {
         "navbar": navbar, "title": "Blog", "posts": posts_obj, "cards": cards
     }
+    # messages.debug(request, "%s SQL statements were executed." % 23)
+    # messages.info(request, "Three credits remain in your account.")
+    # messages.success(request, "Profile details updated.")
+    # messages.warning(request, "Your account expires in three days.")
+    # messages.error(request, "Document deleted.")
     return render(request, 'blog.html', context)
 
 
@@ -163,7 +170,6 @@ def logoutUser(request):
 
 
 def search(request):
-    # TODO Add pages to search.
     search_string = request.POST['query']
     navbar = create_navbar(request, "search")
     cards = []
@@ -174,8 +180,6 @@ def search(request):
                                       Q(body__icontains=search_string)). \
         order_by("-updated")
     results = list(chain(results, page_results))
-    for r in results:
-        print(f"NOB:{r.__class__.__name__}")
     paginator = Paginator(results, 3)  # Show 3 results per page
     page_number = request.GET.get('page')
     results_obj = paginator.get_page(page_number)
@@ -210,7 +214,6 @@ def contactForm(request):
     navbar = create_navbar(request, "contact")
     cards = []
     form = ContactForm()
-    print(f"FORM:{str(form)}")
     context = {
         "navbar": navbar,
         "title": "Contact",
@@ -218,3 +221,32 @@ def contactForm(request):
         "form": form
     }
     return render(request, 'contact.html', context=context)
+
+
+'''
+# if this is a POST request we need to process the form data
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = NameForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect("/thanks/")
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NameForm()
+
+    return render(request, "name.html", {"form": form})
+'''
+
+
+
+
+
+
+def recentPosts(count=5):
+    responses = BlogPost.objects.filter(status=BlogPost.PUBLISHED).order_by("-updated")[0:4]
+    return responses

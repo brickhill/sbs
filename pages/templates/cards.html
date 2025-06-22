@@ -49,10 +49,19 @@
                 </form>
             </div>
         </div>
+    {% elif c.type == "recentposts" %}
+        <div class="card" style="margin:20px;">
+            <div class="card-body">
+                <h5>Recent Posts</h5>
+                {% for p in c.posts %}
+                    <p><a href="">{{ p.title }}: {{ p.updated }} </a></p>
+                {% endfor %}
+            </div>
+        </div>
     {% else %}
         <div class="card" style="margin: 2px;">
             <div class="card-body">
-                <h1>Unknown Box type; {{c.type}}<h1>
+                <h1>Unknown Box type: {{c.type}}<h1>
             </div>
         </div>
     {% endif %}
